@@ -8,6 +8,19 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
+def clean_homephone(homephone) 
+  if homephone.nil?
+    "0000000000"
+  elsif homephone.length < 10
+    homephone.rjust(10,"0")
+  elsif homephone.length > 10
+    homephone[0..9]
+  else
+    homephone
+  end
+end
+
+
 def legislators_by_zipcode(zipcode)
   Sunlight::Congress::Legislator.by_zipcode(zipcode)
 end
@@ -32,6 +45,7 @@ erb_template = ERB.new template_letter
 contents.each do |row|
   id = row[0]
   name = row[:first_name]
+  homephone = clean_homephone(row[:homephone])
   zipcode = clean_zipcode(row[:zipcode])
   legislators = legislators_by_zipcode(zipcode)
 
