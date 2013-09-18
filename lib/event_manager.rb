@@ -9,6 +9,7 @@ def clean_zipcode(zipcode)
 end
 
 def clean_homephone(homephone) 
+homephone = homephone.gsub(/[^0-9]/, '')
   if homephone.nil?
     "0000000000"
   elsif homephone.length < 10
